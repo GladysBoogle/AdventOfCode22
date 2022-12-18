@@ -1,0 +1,18 @@
+# -*-coding:utf-8 -*-
+# Author: Eileen Kammel
+# Date: 2022-12-18 21:41:15
+
+with open('Day1/input.txt', 'r') as f:
+    total_inventory = []
+    single_inventory = []
+    data = f.read().splitlines()
+    for food in data:
+        if food == '':
+            total_inventory.append(single_inventory)
+            print(single_inventory)
+            single_inventory = []
+            continue
+        single_inventory.append(int(food))
+
+max_calories = max([sum(inventory) for inventory in total_inventory])
+print(max_calories)
