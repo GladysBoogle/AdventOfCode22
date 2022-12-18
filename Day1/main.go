@@ -6,6 +6,9 @@ import (
 	"log"
 	"os"
 	"strconv"
+
+	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/slices"
 )
 
 func main() {
@@ -42,12 +45,21 @@ func main() {
 		sum = 0
 	}
 
-	max := 0
-	for _, current_sum := range sums {
-		if current_sum > max {
-			max = current_sum
-		}
-	}
+	slices.Sort(sums)
+	slices.SortFunc(sums, func(a, b int) bool { return a > b })
 
-	fmt.Print(max)
+	fmt.Printf("Max calories: %d\n", sums[0])
+	fmt.Printf("Top 3 calories: %d\n", Sum(sums[0:3]))
+}
+
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+func Sum[N Number](integers []N) N {
+	var sum N
+	for i := range integers {
+		sum += integers[i]
+	}
+	return sum
 }
